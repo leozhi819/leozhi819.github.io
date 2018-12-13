@@ -4,3 +4,34 @@ html{
 	line-height:1.4;
 	background:#626262;
 }
+
+body,html,h1,h2,h3,h4,h5,h6,a,ul,li{}
+
+body{
+	font-family:opensans;
+	background:#fff;
+	margin:0;
+	padding:0;
+}
+
+.header-top{
+	position:fixed;
+	z-index:20;
+	top:0;
+	left:0;
+	height:56px;
+}
+
+.header-top .logo img{
+	height:56px;
+	width:auto;
+	padding:8px 16px;
+}
+
+.header-top .logo{
+	transition:.3s;
+}
+
+.header-top .logo:hover{
+	background:rgba(255,255,255,.15);
+}
