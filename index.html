@@ -14,7 +14,11 @@
   
   <body>
 		<div class="container-fluid">
-			<img id="bg" class="img-responsive" src="img/bg.jpg">
+			<picture>
+				<source media="(min-width:800px)" srcset="img/bg-large.jpg">
+				<source media="(min-width:500px)" srcset="img/bg-medium.jpg">
+				<img src="img/bg-small.jpg">
+			</picture>
 		  <div class="mask">
 				
 		  </div>
