@@ -1,129 +1,158 @@
-<?php include('config.php');include('admincore.php');?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<?php include('inc.php'); ?>
-		<style>
-			.zhuangtai-box{
-				width: 100%;
-				height: 30%;
-				background: url(images/zu.png);
-				position: relative;
-				background-position: center top;
-				background-size:contain;
-				border-radius:0 ;
-				text-align: center;
-			}
-			.zhuangtai-box > .zhuangtai-tit{
-				color: #FFFFFF;
-				position: absolute;
-				top:50%;
-				left: 41%;
-				font-family: "微软雅黑";
-				font-size: 30px;
-				display: inline-block;
-			}
-			.zhuangtai-tit:hover{
-				text-decoration:none;
-			}
-			.tishi-houtai{
-				text-align:center; 
-				font-size:14px; 
-				margin-bottom:15px; 
-			}
-			.tishi-houtai p{
-				display:inline-block;
-				padding:10px 20px;
-				color: #fb5c5c;
-				background:#f8fafc ;
-				border-radius: 20px;
-			}
-			.tishi-houtai p span{
-				display: inline-block;
-				width: 20px;
-				height: 20px;
-				border-radius: 50%;
-				background: #fb5c5c;
-				color:#FFFFFF; 
-				margin-right:10px ;
-			}
-			.tishi-houtai p a{
-				margin-left:10px ;
-				color: #fff;
-				font-size: 14px;
-				background: #fb5c5c;
-				border-radius: 20px;
-				display: inline-block;
-				padding: 3px 10px;
-			}
-			.tishi-houtai p a:hover{
-				text-decoration: none;
-				background: #0093FF;
-			}
-		</style>
-	</head>
-	<body>
-		<?php $nav ='home';include('head.php'); ?>
-		
-		<div id="hd_main">
-			<div class="zhuangtai-box">
-				<a class="zhuangtai-tit">
-					后台文件配置状态检测
-				</a>
-				
-			</div>
-			<!--内容-->
-		   <div style="margin-top:20px ;">
-		   	<?php $path = $_SERVER['SCRIPT_NAME'];
-		   		if($aik['admin_name']=='admin' && $aik['admin_pass']=='3ceb0e9fb16f8673c35f707e8657124a'){
-			   		echo '<div class="tishi-houtai"><p><span>!</span>您的账号密码为系统默认，请尽快修改<a href="./setting.php">立即修改></a></p></div>';	
-				}
-			    if(strpos($path,'/admin/')>-1){
-				   echo '<div class="tishi-houtai"><p><span>!</span>阿莫之家影视解析系统提醒您：您的后台目录默认为 域名/admin ，为了安全请尽快修改后台目录</p></div>';	
-				}
-			
-		   ?>
-		   
-		    <table width="600" border="0" class="tablecss" cellspacing="0" cellpadding="0" align="center">
-				<tr>
-				   <td colspan="2" align="center">欢迎使用阿莫之家影视解析管理系统(二次解析)！</td>
-				</tr>
-			  	<tr>
-				    <td align="right">当前使用版：</td>
-				    <td><span>阿莫之家影视解析系统V1版本</span></td>
-			  	</tr>
-			  	<tr>
-				    <td width="213" align="right">服务器操作系统：</td>
-				    <td width="387"><?php $os = explode(" ", php_uname()); echo $os[0];?> (<?php if('/'==DIRECTORY_SEPARATOR){echo $os[2];}else{echo $os[1];} ?>)</td>
-			  	</tr>
-			    <tr>
-				    <td width="213" align="right">服务器解译引擎：</td>
-				    <td width="387"><?php echo $_SERVER['SERVER_SOFTWARE'];?></td>
-			  	</tr>
-			  	<tr>
-				    <td width="213" align="right">PHP版本：</td>
-				    <td width="387"><?php echo PHP_VERSION?></td>
-			  	</tr>
-			  	<tr>
-				    <td align="right">域名：</td>
-				    <td><?php echo $_SERVER['HTTP_HOST']?></td>
-			  	</tr>
-			  	<tr>
-				    <td align="right">allow_url_fopen：</td>
-				    <td><?php echo ini_get('allow_url_fopen') ? '<span class="green">支持</span>' : '<span class="red">不支持</span>'?></td>
-			  	</tr>
-			  	<tr>
-				    <td align="right">curl_init：</td>
-				    <td><?php if ( function_exists('curl_init') ){ echo '<span class="green">支持</span>' ;}else{ echo '<span class="red">不支持</span>';}?></td>
-			  	</tr>
-				<tr>
-			   		<td align="right">/data/目录权限检测：</td>
-			    	<td><?php echo is_writable('../data/') ? '<span class="green">可写</span>' : '<span class="red">不可写</span>'?></td>
-			  	</tr>  
-			</table>
-		   </div>
-		</div>
-<!--		<?php include('foot.php'); ?>-->
-	</body>
-</html>
+<?php
+include 'common.php';
+include 'header.php';
+include 'menu.php';
+
+$stat = Typecho_Widget::widget('Widget_Stat');
+?>
+<div class="main">
+    <div class="container typecho-dashboard">
+        <?php include 'page-title.php'; ?>
+        <div class="row typecho-page-main">
+            <div class="col-mb-12 welcome-board" role="main">
+                <p><?php _e('目前有 <em>%s</em> 篇文章, 并有 <em>%s</em> 条关于你的评论在 <em>%s</em> 个分类中.',
+                $stat->myPublishedPostsNum, $stat->myPublishedCommentsNum, $stat->categoriesNum); ?>
+                <br><?php _e('点击下面的链接快速开始:'); ?></p>
+
+                <ul id="start-link" class="clearfix">
+                    <?php if($user->pass('contributor', true)): ?>
+                    <li><a href="<?php $options->adminUrl('write-post.php'); ?>"><?php _e('撰写新文章'); ?></a></li>
+                    <?php if($user->pass('editor', true) && 'on' == $request->get('__typecho_all_comments') && $stat->waitingCommentsNum > 0): ?>
+                        <li><a href="<?php $options->adminUrl('manage-comments.php?status=waiting'); ?>"><?php _e('待审核的评论'); ?></a>
+                        <span class="balloon"><?php $stat->waitingCommentsNum(); ?></span>
+                        </li>
+                    <?php elseif($stat->myWaitingCommentsNum > 0): ?>
+                        <li><a href="<?php $options->adminUrl('manage-comments.php?status=waiting'); ?>"><?php _e('待审核评论'); ?></a>
+                        <span class="balloon"><?php $stat->myWaitingCommentsNum(); ?></span>
+                        </li>
+                    <?php endif; ?>
+                    <?php if($user->pass('editor', true) && 'on' == $request->get('__typecho_all_comments') && $stat->spamCommentsNum > 0): ?>
+                        <li><a href="<?php $options->adminUrl('manage-comments.php?status=spam'); ?>"><?php _e('垃圾评论'); ?></a>
+                        <span class="balloon"><?php $stat->spamCommentsNum(); ?></span>
+                        </li>
+                    <?php elseif($stat->mySpamCommentsNum > 0): ?>
+                        <li><a href="<?php $options->adminUrl('manage-comments.php?status=spam'); ?>"><?php _e('垃圾评论'); ?></a>
+                        <span class="balloon"><?php $stat->mySpamCommentsNum(); ?></span>
+                        </li>
+                    <?php endif; ?>
+                    <?php if($user->pass('administrator', true)): ?>
+                    <li><a href="<?php $options->adminUrl('themes.php'); ?>"><?php _e('更换外观'); ?></a></li>
+                    <li><a href="<?php $options->adminUrl('plugins.php'); ?>"><?php _e('插件管理'); ?></a></li>
+                    <li><a href="<?php $options->adminUrl('options-general.php'); ?>"><?php _e('系统设置'); ?></a></li>
+                    <?php endif; ?>
+                    <?php endif; ?>
+                    <!--<li><a href="<?php $options->adminUrl('profile.php'); ?>"><?php _e('更新我的资料'); ?></a></li>-->
+                </ul>
+                <?php $version = Typecho_Cookie::get('__typecho_check_version'); ?>
+                <?php if ($version && $version['available']): ?>
+                <div class="update-check">
+                    <p class="message notice">
+                        <?php _e('您当前使用的版本是'); ?> <?php echo $version['current']; ?> &rarr;
+                        <strong><a href="<?php echo $version['link']; ?>"><?php _e('官方最新版本是'); ?> <?php echo $version['latest']; ?></a></strong>
+                    </p>
+                </div>
+                <?php endif; ?>
+            </div>
+
+            <div class="col-mb-12 col-tb-4" role="complementary">
+                <section class="latest-link">
+                    <h3><?php _e('最近发布的文章'); ?></h3>
+                    <?php Typecho_Widget::widget('Widget_Contents_Post_Recent', 'pageSize=10')->to($posts); ?>
+                    <ul>
+                    <?php if($posts->have()): ?>
+                    <?php while($posts->next()): ?>
+                        <li>
+                            <span><?php $posts->date('n.j'); ?></span>
+                            <a href="<?php $posts->permalink(); ?>" class="title"><?php $posts->title(); ?></a>
+                        </li>
+                    <?php endwhile; ?>
+                    <?php else: ?>
+                        <li><em><?php _e('暂时没有文章'); ?></em></li>
+                    <?php endif; ?>
+                    </ul>
+                </section>
+            </div>
+
+            <div class="col-mb-12 col-tb-4" role="complementary">
+                <section class="latest-link">
+                    <h3><?php _e('最近得到的回复'); ?></h3>
+                    <ul>
+                        <?php Typecho_Widget::widget('Widget_Comments_Recent', 'pageSize=10')->to($comments); ?>
+                        <?php if($comments->have()): ?>
+                        <?php while($comments->next()): ?>
+                        <li>
+                            <span><?php $comments->date('n.j'); ?></span>
+                            <a href="<?php $comments->permalink(); ?>" class="title"><?php $comments->author(true); ?></a>:
+                            <?php $comments->excerpt(35, '...'); ?>
+                        </li>
+                        <?php endwhile; ?>
+                        <?php else: ?>
+                        <li><?php _e('暂时没有回复'); ?></li>
+                        <?php endif; ?>
+                    </ul>
+                </section>
+            </div>
+
+            <div class="col-mb-12 col-tb-4" role="complementary">
+                <section class="latest-link">
+                    <h3><?php _e('官方最新日志'); ?></h3>
+                    <div id="typecho-message">
+                        <ul>
+                            <li><?php _e('读取中...'); ?></li>
+                        </ul>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php
+include 'copyright.php';
+include 'common-js.php';
+?>
+
+<script>
+$(document).ready(function () {
+    var ul = $('#typecho-message ul'), cache = window.sessionStorage,
+        html = cache ? cache.getItem('feed') : '',
+        update = cache ? cache.getItem('update') : '';
+
+    if (!!html) {
+        ul.html(html);
+    } else {
+        html = '';
+        $.get('<?php $options->index('/action/ajax?do=feed'); ?>', function (o) {
+            for (var i = 0; i < o.length; i ++) {
+                var item = o[i];
+                html += '<li><span>' + item.date + '</span> <a href="' + item.link + '" target="_blank">' + item.title
+                    + '</a></li>';
+            }
+
+            ul.html(html);
+            cache.setItem('feed', html);
+        }, 'json');
+    }
+
+    function applyUpdate(update) {
+        if (update.available) {
+            $('<div class="update-check message error"><p>'
+                + '<?php _e('您当前使用的版本是 %s'); ?>'.replace('%s', update.current) + '<br />'
+                + '<strong><a href="' + update.link + '" target="_blank">'
+                + '<?php _e('官方最新版本是 %s'); ?>'.replace('%s', update.latest) + '</a></strong></p></div>')
+            .insertAfter('.typecho-page-title').effect('highlight');
+        }
+    }
+
+    if (!!update) {
+        applyUpdate($.parseJSON(update));
+    } else {
+        $.get('<?php $options->index('/action/ajax?do=checkVersion'); ?>', function (o, status, resp) {
+            applyUpdate(o);
+            cache.setItem('update', resp.responseText);
+        }, 'json');
+    }
+});
+
+</script>
+<?php include 'footer.php'; ?>
